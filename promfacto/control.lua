@@ -232,6 +232,8 @@ function reportFurnaces(forceName)
         if ent then
             totEnergy = totEnergy + ent.energy
 
+            details.product = ""
+
             local inpinv = ent.get_inventory(defines.inventory.furnace_source)
             for k,v in pairs(inpinv.get_contents()) do
                 details.product = k
@@ -271,6 +273,9 @@ function reportFurnaces(forceName)
     end
 
     gauge_energy:set(totEnergy, {forceName, "furnaces"})
+
+    gauge_furnaces.observations = {}
+    gauge_furnaces.label_values = {}
 
     for product,states in pairs(furnaces) do
         for state, n in pairs(states) do
