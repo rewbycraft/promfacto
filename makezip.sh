@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # jq comes from https://stedolan.github.io/jq/download (or apt install it).
-NAMES='promfacto '`git config --file .gitmodules --get-regexp path | awk '$2 != "prometheus" { print $2 }'`
+NAMES='promfacto YARM advanced-logistics-system'
 
 for NAME in $NAMES; do
     cd $NAME

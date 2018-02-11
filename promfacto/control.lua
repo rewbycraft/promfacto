@@ -6,7 +6,7 @@
 
 -- require "defines"
 
-prometheus = require("prometheus/tarantool-prometheus")
+prometheus = require("prometheus/prometheus")
 count_deaths = prometheus.counter("factorio_deaths", "entity died", {"entity_name"})
 gauge_objects = prometheus.gauge("factorio_objects", "items owned by player", {"force", "name", "placement"})
 count_sectors_scanned = prometheus.counter("factorio_sectors_scanned", "radar sectors scanned")
@@ -86,7 +86,7 @@ script.on_event(defines.events.on_robot_built_entity, function(event)
     entityBuilt(event, event.created_entity)
 end)
 
-script.on_event(defines.events.on_preplayer_mined_item, function(event)
+script.on_event(defines.events.on_pre_player_mined_item, function(event)
     entityMined(event, event.entity)
 end)
 
@@ -170,7 +170,7 @@ function updatePlayer(player)
     end
 
     -- TODO add gauge for current tick (or counter for ticks passed?)
-    gauge_evolution_factor:set(game.evolution_factor)
+    gauge_evolution_factor:set(game.forces["enemy"].evolution_factor)
     getPollution()
     reportFluids(forceName)
     reportFurnaces(forceName)
