@@ -28,7 +28,12 @@ remote.add_interface("promfacto", {
 	add_gauge = function(name, help, labels)
 		if gg[name] ~= nil then
 			print("Created "..name)
-			gg[name] = prometheus.gauge(name, help, labels)
+			local ting = prometheus.gauge(name, help, labels)
+			if ting == nil then
+				print("Created nil")
+			else
+				gg[name] = ting
+			end
 		else
 			print("Failed to create metric "..name)
 		end
