@@ -26,15 +26,7 @@ gg = {}
 
 function ag(name, help, labels)
 	if gg[name] == nil then
-		local ting = prometheus.gauge(name, help, labels)
-		print("Created "..name)
-		if ting == nil then
-			print("Created nil")
-		else
-			gg[name] = ting
-		end
-	else
-		print("Failed to create metric "..name)
+		gg[name] = prometheus.gauge(name, help, labels)
 	end
 end
 function sg(name, value, labels)
