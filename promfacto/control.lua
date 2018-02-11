@@ -164,7 +164,18 @@ function initPlayer(player)
     reportBuilders(player.force.name)
 end
 
+function resetGauge(gauge)
+	gauge.observations = {}
+	gauge.label_values = {}
+end
+
 function updatePlayers()
+	resetGauge(gauge_furnaces)
+	resetGauge(gauge_hasinput)
+	resetGauge(gauge_hasoutput)
+	resetGauge(gauge_builders)
+	resetGauge(gauge_objects)
+
     for _,player in pairs(game.players) do
         updatePlayer(player)
     end
@@ -184,7 +195,7 @@ function updatePlayer(player)
         for _, invid in ipairs(invs) do
             inventory = player.get_inventory(invid)
             for n,v in pairs(inventory.get_contents()) do
-                gauge_objects:set(v, {forceName, n, "inventory"})
+                gauge_objects:inc(v, {forceName, n, "inventory"})
             end
         end
     end
@@ -274,9 +285,6 @@ function reportFurnaces(forceName)
 
     gauge_energy:set(totEnergy, {forceName, "furnaces"})
 
-    gauge_furnaces.observations = {}
-    gauge_furnaces.label_values = {}
-
     for product,states in pairs(furnaces) do
         for state, n in pairs(states) do
             gauge_furnaces:set(n, {forceName, product, state})
@@ -334,9 +342,9 @@ function reportBuilders(forceName)
             end
         end
         if ent then
-            local recipe = ent.recipe
-            if ent.recipe then
-                local name = ent.recipe.name
+            local recipe = ent:get_recipe()
+            if recipe then
+                local name = recipe.name
                 countByRecipe[name] = 1 + ( countByRecipe[name] or 0 )
 
                 if ent.is_crafting() then
