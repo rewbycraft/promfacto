@@ -22,9 +22,14 @@ gauge_hasinput = prometheus.gauge("factorio_hasinput", "has output", {"force", "
 gauge_builders = prometheus.gauge("factorio_assemblers", "assemblers", {"force", "recipe_name"})
 gauge_furnaces = prometheus.gauge("factorio_furnaces", "furnaces", {"force", "product", "status"})
 
+gauges = {}
+
 remote.add_interface("promfacto", {
-	get_prometheus = function()
-		return prometheus
+	add_gauge = function(name, help, labels)
+		gauges[name] = prometheus.gauge(name, help, labels)
+	end,
+	set_gauge = function(name, value, labels)
+		gauges[name]:set(value, labels)
 	end
 })
 
