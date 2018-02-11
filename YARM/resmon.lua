@@ -1,8 +1,6 @@
 require "util"
 require "libs/array_pair"
-prometheus = remote.call("promfacto", "get_prometheus")
-prometheus_sites = prometheus.gauge("factorio_ore_sites", "YARM Ore Sites", {"ore", "center_x", "center_y", "name"})
-
+prometheus_sites = {}
 resmon = {
     on_click = {},
     endless_resources = {},
@@ -22,6 +20,8 @@ function resmon.init_globals()
     for index,_ in pairs(game.players) do
         resmon.init_player(index)
     end
+    prometheus = remote.call("promfacto", "get_prometheus")
+    prometheus_sites = prometheus.gauge("factorio_ore_sites", "YARM Ore Sites", {"ore", "center_x", "center_y", "name"})
 end
 
 
