@@ -5,6 +5,6 @@
   "title": "YARM - Resource Monitor",
   "author": "Octav 'narc' Sandulescu, based on work by drs, jorgenRe, and L0771",
   "homepage": "https://github.com/narc0tiq/YARM",
-  "dependencies": ["base >= 0.16.1"],
+  "dependencies": ["base >= 0.16.1", "promfacto >= 0.21"],
   "description": "This mod helps you to keep track of your mining sites."
 }

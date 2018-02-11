@@ -22,6 +22,12 @@ gauge_hasinput = prometheus.gauge("factorio_hasinput", "has output", {"force", "
 gauge_builders = prometheus.gauge("factorio_assemblers", "assemblers", {"force", "recipe_name"})
 gauge_furnaces = prometheus.gauge("factorio_furnaces", "furnaces", {"force", "product", "status"})
 
+remote.add_interface("promfacto", {
+	get_prometheus = function()
+		return prometheus
+	end
+})
+
 ---  Enable/Disable Debugging
 local DEV = true
 
