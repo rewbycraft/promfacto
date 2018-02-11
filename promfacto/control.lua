@@ -25,7 +25,7 @@ gauge_furnaces = prometheus.gauge("factorio_furnaces", "furnaces", {"force", "pr
 gg = {}
 
 function ag(name, help, labels)
-	if gg[name] ~= nil then
+	if gg[name] == nil then
 		local ting = prometheus.gauge(name, help, labels)
 		print("Created "..name)
 		if ting == nil then
