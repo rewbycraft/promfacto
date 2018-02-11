@@ -435,7 +435,7 @@ function getStoredFluids(storageTanksByPos)
             if ent then
                 -- print("checking fluid at " .. xys)
                 local fb = ent.fluidbox[1]
-                if fb then
+                if fb and fb.type ~= nil then
                     count_by_name_total[fb.type] = fb.amount + (count_by_name_total[fb.type] or 0)
                 end
             end
