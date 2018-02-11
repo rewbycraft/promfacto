@@ -26,10 +26,15 @@ gauges = {}
 
 remote.add_interface("promfacto", {
 	add_gauge = function(name, help, labels)
+		print("Created "..name)
 		gauges[name] = prometheus.gauge(name, help, labels)
 	end,
 	set_gauge = function(name, value, labels)
-		gauges[name]:set(value, labels)
+		if name ~= nil and gauges[name] ~= nil then
+			gauges[name]:set(value, labels)
+		else
+			print("Cannot set " .. name)
+		end
 	end
 })
 
