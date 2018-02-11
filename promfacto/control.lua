@@ -225,7 +225,7 @@ function reportFurnaces(forceName)
     local furnaces = {}
     local surface = game.surfaces["nauvis"]
     for xys,ent in pairs(global.furnaces) do
-        local details = global.furnaceDetails[xys] or {name = ent.name}
+        local details = global.furnaceDetails[xys] or {name = ent.name, product = "" }
         if (not ent.valid) and details then
             ent = surface.find_entity(details.name, str2pos(xys))
         end
@@ -249,7 +249,6 @@ function reportFurnaces(forceName)
                     break
                 end
             end
-            print(serpent.block(details))
             local product = string.match(details.product, "[^-]+") or "unknown"
 
             local status = "idle"
