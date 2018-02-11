@@ -22,20 +22,20 @@ gauge_hasinput = prometheus.gauge("factorio_hasinput", "has output", {"force", "
 gauge_builders = prometheus.gauge("factorio_assemblers", "assemblers", {"force", "recipe_name"})
 gauge_furnaces = prometheus.gauge("factorio_furnaces", "furnaces", {"force", "product", "status"})
 
-gauges = {}
+local gg = {}
 
 remote.add_interface("promfacto", {
 	add_gauge = function(name, help, labels)
-		if gauges[name] ~= nil then
+		if gg[name] ~= nil then
 			print("Created "..name)
-			gauges[name] = prometheus.gauge(name, help, labels)
+			gg[name] = prometheus.gauge(name, help, labels)
 		else
 			print("Failed to create metric "..name)
 		end
 	end,
 	set_gauge = function(name, value, labels)
-		if name ~= nil and gauges[name] ~= nil then
-			gauges[name]:set(value, labels)
+		if gg[name] ~= nil then
+			gg[name]:set(value, labels)
 		else
 			print("Cannot set " .. name)
 		end
