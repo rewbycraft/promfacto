@@ -19,7 +19,6 @@ function resmon.init_globals()
     for index,_ in pairs(game.players) do
         resmon.init_player(index)
     end
-    remote.call("promfacto", "add_gauge", "factorio_ore_sites", "YARM Ore Sites", {"ore", "center_x", "center_y", "name"})
 end
 
 
@@ -473,6 +472,7 @@ function resmon.finish_deposit_count(site)
     site.amount = site.update_amount
     site.last_ore_check = game.tick
 
+    remote.call("promfacto", "add_gauge", "factorio_ore_sites", "YARM Ore Sites", {"ore", "center_x", "center_y", "name"})
     remote.call("promfacto", "set_gauge", "factorio_ore_sites", site.amount, { site.ore_type, site.center.x, site.center.y, string.format("%s %d", get_octant_name(site.center), util.distance({x=0, y=0}, site.center)) })
 
     site.remaining_permille = math.floor(site.amount * 1000 / site.initial_amount)
