@@ -249,6 +249,7 @@ function reportFurnaces(forceName)
                     break
                 end
             end
+            print(serpent.block(details))
             local product = string.match(details.product, "[^-]+") or "unknown"
 
             local status = "idle"
