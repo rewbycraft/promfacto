@@ -176,16 +176,16 @@ end
 
 function updateForces()
 	for _,force in pairs(game.forces) do
-		for itemname,amount in pairs(force.item_production_statistics.input_counts)
+		for itemname,amount in pairs(force.item_production_statistics.input_counts) do
 			gauge_item_input_count:set(amount, {force.name, itemname})
 		end
-		for itemname,amount in pairs(force.item_production_statistics.output_counts)
+		for itemname,amount in pairs(force.item_production_statistics.output_counts) do
 			gauge_item_output_count:set(amount, {force.name, itemname})
 		end
-		for fluidname,amount in pairs(force.fluid_production_statistics.input_counts)
+		for fluidname,amount in pairs(force.fluid_production_statistics.input_counts) do
 			gauge_fluid_input_count:set(amount, {force.name, fluidname})
 		end
-		for fluidname,amount in pairs(force.fluid_production_statistics.output_counts)
+		for fluidname,amount in pairs(force.fluid_production_statistics.output_counts) do
 			gauge_fluid_output_count:set(amount, {force.name, fluidname})
 		end
 	end
