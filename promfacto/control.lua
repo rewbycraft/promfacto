@@ -18,9 +18,13 @@ gauge_energy = prometheus.gauge("factorio_energy", "energy", {"force", "entity_n
 gauge_fuel = prometheus.gauge("factorio_fuel", "fuel", {"force", "entity_name"})
 gauge_crafting = prometheus.gauge("factorio_crafting", "crafting", {"force", "entity_name"})
 gauge_hasoutput = prometheus.gauge("factorio_hasoutput", "has output", {"force", "entity_name"})
-gauge_hasinput = prometheus.gauge("factorio_hasinput", "has output", {"force", "entity_name"})
+gauge_hasinput = prometheus.gauge("factorio_hasinput", "has input", {"force", "entity_name"})
 gauge_builders = prometheus.gauge("factorio_assemblers", "assemblers", {"force", "recipe_name"})
 gauge_furnaces = prometheus.gauge("factorio_furnaces", "furnaces", {"force", "product", "status"})
+gauge_item_input_count = prometheus.gauge("factorio_item_input_count", "item input counts", {"force", "name"})
+gauge_item_output_count = prometheus.gauge("factorio_item_output_count", "item output counts", {"force", "name"})
+gauge_fluid_input_count = prometheus.gauge("factorio_fluid_input_count", "fluid input counts", {"force", "name"})
+gauge_fluid_output_count = prometheus.gauge("factorio_fluid_output_count", "fluid output counts", {"force", "name"})
 
 gg = {}
 
@@ -127,6 +131,7 @@ script.on_event(defines.events.on_tick, function(event)
             initdone = true
             initPlayers()
         end
+	updateForces()
         updatePlayers()
         writeMetrics()
     end
@@ -167,6 +172,23 @@ end
 function resetGauge(gauge)
 	gauge.observations = {}
 	gauge.label_values = {}
+end
+
+function updateForces()
+	for _,force in pairs(game.forces) do
+		for itemname,amount in pairs(force.item_production_statistics.input_counts)
+			gauge_item_input_count:set(amount, {force.name, itemname})
+		end
+		for itemname,amount in pairs(force.item_production_statistics.output_counts)
+			gauge_item_output_count:set(amount, {force.name, itemname})
+		end
+		for fluidname,amount in pairs(force.fluid_production_statistics.input_counts)
+			gauge_fluid_input_count:set(amount, {force.name, fluidname})
+		end
+		for fluidname,amount in pairs(force.fluid_production_statistics.output_counts)
+			gauge_fluid_output_count:set(amount, {force.name, fluidname})
+		end
+	end
 end
 
 function updatePlayers()
